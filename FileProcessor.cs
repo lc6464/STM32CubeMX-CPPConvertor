@@ -46,7 +46,7 @@ public static class FileProcessor {
 
 		IsProcessorInitialized = true;
 
-		return [.. result];
+		return [..result];
 	}
 
 	private static void UpdateProjectName(List<string> result) {
