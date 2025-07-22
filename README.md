@@ -1,8 +1,8 @@
-# STM32CubeMX C++ Converter (STM32CubeMX-CPPConvertor)
+# STM32CubeMX C++ Converter
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version: v0.1.0](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/lc6464/STM32CubeMX-CPPConvertor/releases/tag/v0.1.0)
-[![Platforms](https://img.shields.io/badge/platform-win%20%7C%20linux%20%7C%20macos-lightgrey.svg)](https://github.com/lc6464/STM32CubeMX-CPPConvertor)
+[![Platforms](https://img.shields.io/badge/platform-win%20%7C%20linux%20%7C%20macos-green.svg)](https://github.com/lc6464/STM32CubeMX-CPPConvertor)
 
 一个简单、高效的命令行工具，旨在**全自动**地将由 **STM32CubeMX** 生成的基于 **CMake** 的 **C** 语言项目，无缝转换为 **C++** 兼容项目。
 

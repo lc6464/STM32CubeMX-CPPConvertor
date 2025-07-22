@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "STM32CubeMXCPPConvertor": {
-      "commandName": "Project",
-      "workingDirectory": "D:\\LC\\Develop\\STM32\\Qidian\\RM_Dart_NavLight_Driver_2026"
-    }
-  }
-}
