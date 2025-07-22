@@ -153,7 +153,7 @@ public static class FileProcessor {
 		}
 
 		if (!projectNameConfirmed) {
-			throw new InvalidOperationException($"Project name not found in IOC file.");
+			throw new InvalidOperationException("Project name not found in IOC file.");
 		}
 
 		if (!toolchainConfirmed) {

@@ -55,7 +55,7 @@ try {
 	}
 
 	// 使用临时文件替换原始文件
-	tempFileInfo.CopyTo(originalFileInfo.FullName, true); // 这里只能使用 CopyTo 方法，原始文件被 CubeMX 占用无法删除（包括 MoveTo 方法）
+	_ = tempFileInfo.CopyTo(originalFileInfo.FullName, true); // 这里只能使用 CopyTo 方法，原始文件被 CubeMX 占用无法删除（包括 MoveTo 方法）
 	Console.WriteLine($"Successfully updated {originalFileInfo.Name}.");
 
 } catch (Exception e) {
