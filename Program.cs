@@ -26,7 +26,12 @@ try {
 		string? line = null;
 
 		while ((line = reader.ReadLine()) != null) {
-			var updated = false;
+			if (FileProcessor.TryReplaceHomePath(line, out var homePathReplacedLine)) {
+				writer.WriteLine(homePathReplacedLine);
+				Console.WriteLine($"Replaced home directory path: {homePathReplacedLine.Trim()}");
+
+				continue;
+			}
 
 			var trimmedLine = line.TrimStart();
 			var emptyPrefix = line.AsSpan(0, line.Length - trimmedLine.Length);
@@ -37,20 +42,19 @@ try {
 				if (FileProcessor.TryUpdateToCPPFile(ref relativePath, out var warning)) {
 					// 如果更新成功，写入新的行
 					writer.WriteLine(string.Concat(emptyPrefix, linePrefix, relativePath));
-					updated = true;
 
 					if (warning is not null) {
 						Console.WriteLine(warning);
 					}
 
 					Console.WriteLine($"Updated C file to CPP file: {relativePath}");
+
+					continue;
 				}
 			}
 
-			if (!updated) {
-				// 如果没有更新，直接写入原行
-				writer.WriteLine(line);
-			}
+			// 如果没有更新，直接写入原行
+			writer.WriteLine(line);
 		}
 	}
 

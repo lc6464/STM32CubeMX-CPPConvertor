@@ -1,6 +1,8 @@
-﻿namespace STM32CubeMXCPPConvertor;
+﻿using System.Text.RegularExpressions;
 
-public static class FileProcessor {
+namespace STM32CubeMXCPPConvertor;
+
+public static partial class FileProcessor {
 	public static readonly FileInfo MainCMakeListsFileInfo = new("CMakeLists.txt");
 	public static readonly FileInfo CubeMXCMakeListsFileInfo = new("cmake/stm32cubemx/CMakeLists.txt");
 	public static readonly FileInfo CubeMXCMakeListsTempFileInfo = new("cmake/stm32cubemx/CMakeLists.txt.tmp");
@@ -8,6 +10,10 @@ public static class FileProcessor {
 	private static readonly Version MinimumSupportedCubeMXVersion = new(6, 15, 0);
 	private static readonly Version MaximumTestedCubeMXVersion = new(6, 15, 0);
 	private static readonly string[] CPPExtensions = [".cpp", ".cxx", ".cc"];
+	private static readonly Regex HomePathRegex = GetHomePathRegex();
+
+	[GeneratedRegex(@"([A-Z]:[\\/]Users[\\/][^\\/]+)|(\/(?:home|Users)\/[^\\/]+)")]
+	private static partial Regex GetHomePathRegex();
 
 	public static bool IsProcessorInitialized { get; private set; } = false;
 	public static string ProjectName { get; private set; } = Path.GetFileName(Directory.GetCurrentDirectory());
@@ -46,7 +52,7 @@ public static class FileProcessor {
 
 		IsProcessorInitialized = true;
 
-		return [..result];
+		return [.. result];
 	}
 
 	private static void UpdateProjectName(List<string> result) {
@@ -197,5 +203,27 @@ public static class FileProcessor {
 			return true;
 		}
 		return false;
+	}
+
+	public static bool TryReplaceHomePath(string line, out string updatedLine) {
+		if (!HomePathRegex.IsMatch(line)) {
+			updatedLine = line;
+			return false;
+		}
+
+		updatedLine = HomePathRegex.Replace(line, match => {
+			// 如果匹配到 Group 1 (Windows)
+			if (match.Groups[1].Success) {
+				return "$ENV{USERPROFILE}";
+			}
+			// 如果匹配到 Group 2 (Linux/macOS)
+			if (match.Groups[2].Success) {
+				return "$ENV{HOME}";
+			}
+			// 理论上不会发生，但作为保险
+			return match.Value;
+		});
+
+		return true;
 	}
 }
